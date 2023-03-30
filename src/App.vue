@@ -1,16 +1,19 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
+import HeaderLayout from "./views/HeaderLayout.vue";
 </script>
 
 <template>
-  <header>
-    <div>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+  <v-card>
+    <v-layout>
+      <v-app-bar color="primary">
+        <HeaderLayout/>
+      </v-app-bar>
 
-  <RouterView />
+      <v-main style="min-height: 100vh;">
+        <v-container>
+          <RouterView/>
+        </v-container>
+      </v-main>
+    </v-layout>
+  </v-card>
 </template>
