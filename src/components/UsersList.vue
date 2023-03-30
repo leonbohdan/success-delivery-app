@@ -34,6 +34,10 @@ const deleteUser = (id) => {
 const addRequest = (userId) => {
   console.log('addRequest userId', userId);
 };
+
+const showAllUserRequest = (userId) => {
+  console.log('showAllUserRequest userId', userId);
+};
 </script>
 
 <template>
@@ -58,6 +62,22 @@ const addRequest = (userId) => {
       item-value="id"
     >
       <template #item.actions="{ item }">
+        <v-btn
+          icon
+          size="small"
+          elevation="0"
+          @click="showAllUserRequest(item.props.title.id)"
+        >
+          <v-icon icon="mdi-timetable"/>
+
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+          >
+            Show all user requests
+          </v-tooltip>
+        </v-btn>
+        
         <v-btn
           icon
           size="small"

@@ -62,3 +62,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.v-data-table-header__content {
+  white-space: nowrap;
+}

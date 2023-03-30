@@ -1,4 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
+import { useLocalStorage } from '@/composables/useLocalStorage.js';
+
+const { setRequests } = useLocalStorage();
 
 export const useRequestsStore = defineStore('requestsStore', {
   state: () => ({ 
@@ -6,8 +9,15 @@ export const useRequestsStore = defineStore('requestsStore', {
   }),
 
   actions: {
-    setRequests() {
-      this.requests = [];
+    setRequests(requests) {
+      this.requests = requests;
+    },
+
+    addRequest(request) {
+      const updatedRequests = [request, ...this.requests];
+
+      this.users = updatedRequests;
+      setRequests(updatedRequests);
     },
   },
 
