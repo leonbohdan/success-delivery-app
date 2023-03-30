@@ -2,7 +2,9 @@ module.exports = {
   root: true,
   'extends': [
     'plugin:vue/vue3-essential',
-    'eslint:recommended'
+    '@indielayer',
+    'eslint:recommended',
+    'plugin:vue/recommended',
   ],
   rules: {
     // 0 - "off"

@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useUsersStore } from '@/stores/useUsersStore.js';
 import HomeView from '@/views/HomeView.vue';
 import RequestsView from '@/views/RequestsView.vue';
 import CreateView from '@/views/CreateView.vue';
-import CreateForm from "@/components/CreateForm.vue";
-import UserRequests from "@/components/UserRequests.vue";
+import CreateForm from '@/components/CreateForm.vue';
+import UserRequests from '@/components/UserRequests.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +16,7 @@ const router = createRouter({
       children: [
         {
           path: ':id',
-          redirect: to => {
+          redirect: (to) => {
             return { path: `${to.params.id}/requests` };
           },
           children: [
@@ -45,6 +46,16 @@ const router = createRouter({
       component: RequestsView,
     },
   ],
+});
+
+router.beforeEach(({ name }, _, next) => {
+  const usersStore = useUsersStore();
+
+  if (usersStore.isNoUsers && name !== 'home') {
+    next({ name: 'home' });
+  } else {
+    next();
+  }
 });
 
 export default router;

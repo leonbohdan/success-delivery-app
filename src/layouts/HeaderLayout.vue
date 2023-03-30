@@ -1,6 +1,6 @@
 <script setup>
-import {computed} from "vue";
-import {useRoute} from "vue-router";
+import { computed } from 'vue';
+import { useRoute } from 'vue-router'; 
 
 const route = useRoute();
 
@@ -12,10 +12,6 @@ const isUserChosen = computed(() => {
 <template>
   <v-container class="d-flex align-center">
     <v-toolbar-title>Success Delivery App</v-toolbar-title>
-
-    <RouterLink to="/">Home</RouterLink>
-
-    <RouterLink to="/requests">Requests</RouterLink>
 
     <template v-if="isUserChosen">
       <v-btn>Add user</v-btn>
