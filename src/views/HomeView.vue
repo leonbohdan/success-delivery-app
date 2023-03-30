@@ -2,9 +2,9 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUsersStore } from '@/stores/useUsersStore.js';
-import { generateUUID } from '../helpers/id-generators.js';
-import { requiredValidationRules, maxLengthValidationRules, minLengthValidationRules } from '../helpers/rules.js';
-import BaseDialog from '../components/base/BaseDialog.vue';
+import { generateUUID } from '@/helpers/id-generators.js';
+import { requiredValidationRules, maxLengthValidationRules, minLengthValidationRules } from '@/helpers/rules.js';
+import BaseDialog from '@/components/base/BaseDialog.vue';
 
 const usersStore = useUsersStore();
 

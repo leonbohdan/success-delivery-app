@@ -52,9 +52,9 @@ router.beforeEach(({ name }, _, next) => {
   const usersStore = useUsersStore();
 
   if (usersStore.isNoUsers && name !== 'home') {
-    next({ name: 'home' });
+    return next({ name: 'home' });
   } else {
-    next();
+    return next();
   }
 });
 
