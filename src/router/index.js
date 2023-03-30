@@ -4,7 +4,7 @@ import HomeView from '@/views/HomeView.vue';
 import RequestsView from '@/views/RequestsView.vue';
 import CreateView from '@/views/CreateView.vue';
 import CreateForm from '@/components/CreateForm.vue';
-import UserRequests from '@/components/UserRequests.vue';
+import UserRequestsLists from '@/components/UserRequestsLists.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,7 +22,7 @@ const router = createRouter({
           children: [
             {
               path: 'requests',
-              component: UserRequests,
+              component: UserRequestsLists,
             },
             {
               path: 'create',
