@@ -2,11 +2,14 @@
 import { ref } from 'vue';
 import { useUsersStore } from '@/stores/useUsersStore.js';
 import { VDataTable } from 'vuetify/labs/components';
-import AddUserDialog from '@/components/AddUserDialog.vue';
+import AddUserDialog from '@/components/dialogs/AddUserDialog.vue';
+import AgreeDialog from '@/components/dialogs/ConfirmDialog.vue';
 
 const userStore = useUsersStore();
 
 const showAddUserDialog = ref(false);
+const showAgreeDialog = ref(false);
+const deleteUserId = ref(null);
 
 const headers = ref([
   {
@@ -27,8 +30,15 @@ const headers = ref([
   },
 ]);
 
-const deleteUser = (id) => {
-  console.log('deleteUser id', id);
+const deleteUser = () => {
+  userStore.deleteUser(deleteUserId.value);
+  showAgreeDialog.value = false;
+  deleteUserId.value = null;
+};
+
+const handleDeleteUser = (id) => {
+  deleteUserId.value = id;
+  showAgreeDialog.value = true;
 };
 
 const addRequest = (userId) => {
@@ -98,7 +108,7 @@ const showAllUserRequest = (userId) => {
           icon
           size="small"
           elevation="0"
-          @click="deleteUser(item.props.title.id)"
+          @click="handleDeleteUser(item.props.title.id)"
         >
           <v-icon icon="mdi-delete"/>
 
@@ -115,5 +125,12 @@ const showAllUserRequest = (userId) => {
 
   <AddUserDialog
     v-model="showAddUserDialog"
+  />
+
+  <AgreeDialog
+    v-model="showAgreeDialog"
+    title="Delete user"
+    message="Are you sure, do you want to delete this user?"
+    @confirm-value="deleteUser"
   />
 </template>

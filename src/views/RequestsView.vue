@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-import RequestsList from '@/components/RequestsList.vue';
-import UsersList from '@/components/UsersList.vue';
+import RequestsList from '@/components/lists/RequestsList.vue';
+import UsersList from '@/components/lists/UsersList.vue';
 
 const tab = ref('requests');
 

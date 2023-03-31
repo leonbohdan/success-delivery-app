@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useUsersStore } from '@/stores/useUsersStore.js';
-import AddUserDialog from '@/components/AddUserDialog.vue';
+import AddUserDialog from '@/components/dialogs/AddUserDialog.vue';
 
 const usersStore = useUsersStore();
 

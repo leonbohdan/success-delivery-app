@@ -19,6 +19,13 @@ export const useUsersStore = defineStore('usersStore', {
       this.users = updatedUsers;
       setUsers(updatedUsers);
     },
+
+    deleteUser(id) {
+      const updatedUsers = this.users.filter((user) => user.id !== id);
+
+      this.users = updatedUsers;
+      setUsers(updatedUsers);
+    },
   },
 
   getters: {

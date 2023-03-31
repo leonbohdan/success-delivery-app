@@ -4,21 +4,29 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isNotAgree: {
+    type: Boolean,
+    default: false,
+  },
   title: {
     type: String,
     default: '',
   },
+  width: {
+    type: String,
+    default: '500px',
+  },
 });
 
-const emit = defineEmits(['update:model-value', 'close-dialog']);
+const emits = defineEmits(['update:model-value', 'close-dialog', 'save']);
 
 const handleClose = () => {
-  emit('update:model-value', false);
-  emit('close-dialog');
+  emits('update:model-value', false);
+  emits('close-dialog');
 };
 
 const handleSave = () => {
-  emit('save');
+  emits('save');
 };
 </script>
 
@@ -26,12 +34,14 @@ const handleSave = () => {
   <div class="text-center">
     <v-dialog
       :model-value="modelValue"
-      width="500px"
+      :width="width"
       persistent
     >
       <v-card>
-        <v-card-title v-if="title" class="px-6">
+        <v-card-title v-if="title" class="pl-6 pr-3 d-flex justify-space-between align-center">
           <span v-html="title"/>
+
+          <v-btn v-if="!isNotAgree" icon="mdi-close" variant="plain" @click="handleClose"/>
         </v-card-title>
 
         <v-divider/>
@@ -44,13 +54,16 @@ const handleSave = () => {
 
         <v-card-actions>
           <v-spacer/>
-          <v-btn color="error" @click="handleClose">
-            Close
-          </v-btn>
 
-          <v-btn color="primary" @click="handleSave">
-            Save
-          </v-btn>
+          <slot name="footer">
+            <v-btn color="error" @click="handleClose">
+              Cancel
+            </v-btn>
+
+            <v-btn color="primary" @click="handleSave">
+              Save
+            </v-btn>
+          </slot>
         </v-card-actions>
       </v-card>
     </v-dialog>
