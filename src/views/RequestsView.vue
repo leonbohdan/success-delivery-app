@@ -1,9 +1,18 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import RequestsList from '@/components/lists/RequestsList.vue';
 import UsersList from '@/components/lists/UsersList.vue';
 
+const route = useRoute();
+
 const tab = ref('requests');
+
+onMounted(() => {
+  if (route.query.tab === 'users') {
+    tab.value = route.query.tab;
+  }
+});
 
 const items = [
   {

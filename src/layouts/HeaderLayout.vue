@@ -1,12 +1,22 @@
 <script setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router'; 
+import { computed, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import AddUserDialog from '@/components/dialogs/AddUserDialog.vue';
 
 const route = useRoute();
+const router = useRouter();
+
+const showAddUserDialog = ref(false);
 
 const isUserChosen = computed(() => {
   return route.params.id;
 });
+
+const addRequest = () => {
+  const updatedRoute = `/${route.params.id}/create`;
+
+  router.push(updatedRoute);
+};
 </script>
 
 <template>
@@ -14,9 +24,17 @@ const isUserChosen = computed(() => {
     <v-toolbar-title>Success Delivery App</v-toolbar-title>
 
     <template v-if="isUserChosen">
-      <v-btn>Add user</v-btn>
+      <v-btn @click="showAddUserDialog = true">
+        Add user
+      </v-btn>
 
-      <v-btn>Create request</v-btn>
+      <v-btn @click="addRequest">
+        Create request
+      </v-btn>
     </template>
   </v-container>
+
+  <AddUserDialog
+    v-model="showAddUserDialog"
+  />
 </template>

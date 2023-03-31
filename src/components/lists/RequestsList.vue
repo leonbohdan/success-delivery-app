@@ -46,7 +46,6 @@ const headers = ref([
 ]);
 
 const editRequest = (id) => {
-  console.log('editRequest id', id);
   requestId.value = id;
   showEditRequestDialog.value = true;
 };

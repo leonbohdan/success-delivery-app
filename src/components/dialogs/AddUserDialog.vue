@@ -40,7 +40,7 @@ const addUser = async () => {
   userName.value = null;
 
   if (router.currentRoute.value.name !== 'requests') {
-    router.push('/requests');
+    router.push({ path: '/requests', query: { tab: 'users' } });
   }
 };
 </script>

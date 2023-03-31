@@ -30,9 +30,11 @@ const router = createRouter({
               children: [
                 {
                   path: 'order',
+                  name: 'order',
                   component: CreateForm,
                 }, {
                   path: 'deliver',
+                  name: 'deliver',
                   component: CreateForm,
                 },
               ],
@@ -44,6 +46,7 @@ const router = createRouter({
       path: '/requests',
       name: 'requests',
       component: RequestsView,
+      props: true,
     },
   ],
 });

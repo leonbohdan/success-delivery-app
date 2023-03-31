@@ -49,15 +49,15 @@ const handleDeleteUser = (id) => {
 };
 
 const addRequest = (userId) => {
-  const route = `/${userId}/create`;
+  const updatedRoute = `/${userId}/create`;
 
-  router.push(route);
+  router.push(updatedRoute);
 };
 
 const showAllUserRequest = (userId) => {
-  const route = `/${userId}/requests`;
+  const updatedRoute = `/${userId}/requests`;
 
-  router.push(route);
+  router.push(updatedRoute);
 };
 </script>
 
