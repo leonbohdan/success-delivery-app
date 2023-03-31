@@ -52,6 +52,7 @@ const addUser = async () => {
     <v-form ref="form">
       <v-text-field
         v-model="userName"
+        autofocus
         label="Add user name"
         counter
         :rules="[...requiredValidationRules, ...maxLengthValidationRules(50), ...minLengthValidationRules()]"
