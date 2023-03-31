@@ -17,11 +17,15 @@ const addRequest = () => {
 
   router.push(updatedRoute);
 };
+
+const openAllRequests = () => {
+  router.push('/requests');
+};
 </script>
 
 <template>
   <v-container class="d-flex align-center">
-    <v-toolbar-title>Success Delivery App</v-toolbar-title>
+    <v-toolbar-title style="cursor: pointer;" @click="openAllRequests">Success Delivery App</v-toolbar-title>
 
     <template v-if="isUserChosen">
       <v-btn @click="showAddUserDialog = true">

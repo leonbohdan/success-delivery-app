@@ -20,6 +20,7 @@ const description = ref(null);
 
 const addRequestFormRef = ref(null);
 const isOrderType = ref(false);
+const loadingBtn = ref(false);
 
 watch(
   () => route,
@@ -40,6 +41,8 @@ const handleSubmit = async () => {
     return;
   }
 
+  loadingBtn.value = true;
+
   const request = {
     id: generateUUID(),
     userId: route.params.id,
@@ -51,9 +54,12 @@ const handleSubmit = async () => {
     description: description.value,
   };
 
-  requestsStore.addRequest(request);
+  await requestsStore.addRequest(request);
 
-  router.push(`/${route.params.id}/requests`);
+  setTimeout(() => {
+    loadingBtn.value = false;
+    router.push(`/${route.params.id}/requests`);
+  }, 500);
 };
 </script>
 
@@ -86,6 +92,8 @@ const handleSubmit = async () => {
 
       <VueDatePicker
         v-model="disputchDate"
+        :min-date="new Date()"
+        model-type="yyyy-MM-dd"
         :enable-time-picker="false"
         class="mb-6"
       />
@@ -101,6 +109,7 @@ const handleSubmit = async () => {
         <v-spacer/>
         <v-btn
           type="submit"
+          :loading="loadingBtn"
           class="mt-2"
           color="primary"
           elevation="0"

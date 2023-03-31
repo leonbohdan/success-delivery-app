@@ -16,7 +16,7 @@ export const useRequestsStore = defineStore('requestsStore', {
     addRequest(request) {
       const updatedRequests = [request, ...this.requests];
 
-      this.users = updatedRequests;
+      this.requests = updatedRequests;
       setRequests(updatedRequests);
     },
 
