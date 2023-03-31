@@ -4,6 +4,7 @@ import { useRequestsStore } from '@/stores/useRequestsStore.js';
 import { VDataTable } from 'vuetify/labs/components';
 import AgreeDialog from '@/components/dialogs/ConfirmDialog.vue';
 import EditRequestDialog from '@/components/dialogs/EditRequestDialog.vue';
+import BaseNoData from '@/components/base/BaseNoData.vue';
 
 const requestsStore = useRequestsStore();
 

@@ -12,33 +12,8 @@ const requestsStore = useRequestsStore();
 const router = useRouter();
 
 const { getUsers, getRequests } = useLocalStorage();
-const { setRequests } = useLocalStorage();
 
 onMounted(() => {
-  const requestObj = [{
-    id: 'sdfs7878sfsfd98sf',
-    userId: '1gsr9nq140b0a4b2530b726',
-    name: 'Frenk',
-    requestType: 'order',
-    from: 'Ivano-Frankivsk',
-    to: 'Kiev',
-    parcelType: 'Medicaments',
-    date: '2023-04-23',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, omnis',
-  },{
-    id: 'sd1238jknmfd98sf',
-    userId: '1gsrb7hui026eb62a94295d',
-    name: 'Dayvin',
-    requestType: 'deliver',
-    from: 'Lviv',
-    to: 'Kharkiv',
-    parcelType: null,
-    date: '2023-04-13',
-    description: null,
-  }];
-
-  setRequests(requestObj);
-  // setUsers([{ name: 'Step', id: 'sfdsd7s88sdf87s' }]);
   const users = getUsers();
   const requests = getRequests();
 

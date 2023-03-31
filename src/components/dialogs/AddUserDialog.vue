@@ -20,10 +20,10 @@ defineProps({
 const emits = defineEmits(['update:model-value']);
 
 const userName = ref(null);
-const form = ref(null);
+const addUserFormRef = ref(null);
 
 const addUser = async () => {
-  const { valid } = await form.value.validate();
+  const { valid } = await addUserFormRef.value.validate();
 
   if (!valid) {
     console.error('Comment is not valid!');
@@ -52,7 +52,7 @@ const addUser = async () => {
     @save="addUser"
     @close-dialog="emits('update:model-value', false)"
   >
-    <v-form ref="form">
+    <v-form ref="addUserFormRef">
       <v-text-field
         v-model="userName"
         autofocus
