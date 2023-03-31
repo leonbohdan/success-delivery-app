@@ -1,11 +1,14 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useUsersStore } from '@/stores/useUsersStore.js';
 import { VDataTable } from 'vuetify/labs/components';
 import AddUserDialog from '@/components/dialogs/AddUserDialog.vue';
 import AgreeDialog from '@/components/dialogs/ConfirmDialog.vue';
 
-const userStore = useUsersStore();
+const usersStore = useUsersStore();
+
+const router = useRouter();
 
 const showAddUserDialog = ref(false);
 const showAgreeDialog = ref(false);
@@ -31,9 +34,13 @@ const headers = ref([
 ]);
 
 const deleteUser = () => {
-  userStore.deleteUser(deleteUserId.value);
+  usersStore.deleteUser(deleteUserId.value);
   showAgreeDialog.value = false;
   deleteUserId.value = null;
+
+  if (usersStore.isNoUsers) {
+    router.push('/');
+  }
 };
 
 const handleDeleteUser = (id) => {
@@ -42,11 +49,15 @@ const handleDeleteUser = (id) => {
 };
 
 const addRequest = (userId) => {
-  console.log('addRequest userId', userId);
+  const route = `/${userId}/create`;
+
+  router.push(route);
 };
 
 const showAllUserRequest = (userId) => {
-  console.log('showAllUserRequest userId', userId);
+  const route = `/${userId}/requests`;
+
+  router.push(route);
 };
 </script>
 
@@ -68,7 +79,7 @@ const showAllUserRequest = (userId) => {
     <VDataTable
       :items-per-page="50"
       :headers="headers"
-      :items="userStore.users"
+      :items="usersStore.users"
       item-value="id"
     >
       <template #item.actions="{ item }">

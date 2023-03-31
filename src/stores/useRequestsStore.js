@@ -19,6 +19,13 @@ export const useRequestsStore = defineStore('requestsStore', {
       this.users = updatedRequests;
       setRequests(updatedRequests);
     },
+
+    deleteRequest(id) {
+      const updatedRequests = this.requests.filter((request) => request.id !== id);
+
+      this.requests = updatedRequests;
+      setRequests(updatedRequests);
+    },
   },
 
   getters: {},

@@ -38,7 +38,10 @@ const addUser = async () => {
 
   emits('update:model-value', false);
   userName.value = null;
-  router.push('/requests');
+
+  if (router.currentRoute.value.name !== 'requests') {
+    router.push('/requests');
+  }
 };
 </script>
 

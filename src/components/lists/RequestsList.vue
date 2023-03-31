@@ -2,8 +2,14 @@
 import { ref } from 'vue';
 import { useRequestsStore } from '@/stores/useRequestsStore.js';
 import { VDataTable } from 'vuetify/labs/components';
+import AgreeDialog from '@/components/dialogs/ConfirmDialog.vue';
+import EditRequestDialog from '@/components/dialogs/EditRequestDialog.vue';
 
 const requestsStore = useRequestsStore();
+
+const showAgreeDialog = ref(false);
+const showEditRequestDialog = ref(false);
+const requestId = ref('');
 
 const headers = ref([
   {
@@ -41,10 +47,19 @@ const headers = ref([
 
 const editRequest = (id) => {
   console.log('editRequest id', id);
+  requestId.value = id;
+  showEditRequestDialog.value = true;
 };
 
-const deleteRequest = (id) => {
-  console.log('deleteRequest id', id);
+const deleteRequest = () => {
+  requestsStore.deleteRequest(requestId.value);
+  showAgreeDialog.value = false;
+  requestId.value = null;
+};
+
+const handleDeleteRequest = (id) => {
+  requestId.value = id;
+  showAgreeDialog.value = true;
 };
 </script>
 
@@ -81,7 +96,7 @@ const deleteRequest = (id) => {
           icon
           size="small"
           elevation="0"
-          @click="deleteRequest(item.props.title.id)"
+          @click="handleDeleteRequest(item.props.title.id)"
         >
           <v-icon icon="mdi-delete"/>
 
@@ -95,4 +110,16 @@ const deleteRequest = (id) => {
       </template>
     </VDataTable>
   </v-card>
+
+  <EditRequestDialog
+    v-model="showEditRequestDialog"
+    :request-id="requestId"
+  />
+
+  <AgreeDialog
+    v-model="showAgreeDialog"
+    title="Delete request"
+    message="Are you sure, do you want to delete this request?"
+    @confirm-value="deleteRequest"
+  />
 </template>
