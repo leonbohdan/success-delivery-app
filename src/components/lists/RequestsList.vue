@@ -65,6 +65,7 @@ const handleDeleteRequest = (id) => {
 <template>
   <v-card border>
     <VDataTable
+      v-if="requestsStore.requests.length"
       :items-per-page="50"
       :headers="headers"
       :items="requestsStore.requests"
@@ -75,39 +76,43 @@ const handleDeleteRequest = (id) => {
       </template>
 
       <template #item.actions="{ item }">
-        <v-btn
-          icon
-          size="small"
-          elevation="0"
-          @click="editRequest(item.props.title.id)"
-        >
-          <v-icon icon="mdi-pencil"/>
-
-          <v-tooltip
-            activator="parent"
-            location="bottom"
+        <div class="d-flex align-center justify-center">
+          <v-btn
+            icon
+            size="small"
+            elevation="0"
+            @click="editRequest(item.props.title.id)"
           >
-            Edit request
-          </v-tooltip>
-        </v-btn>
+            <v-icon icon="mdi-pencil"/>
 
-        <v-btn
-          icon
-          size="small"
-          elevation="0"
-          @click="handleDeleteRequest(item.props.title.id)"
-        >
-          <v-icon icon="mdi-delete"/>
+            <v-tooltip
+              activator="parent"
+              location="bottom"
+            >
+              Edit request
+            </v-tooltip>
+          </v-btn>
 
-          <v-tooltip
-            activator="parent"
-            location="bottom"
+          <v-btn
+            icon
+            size="small"
+            elevation="0"
+            @click="handleDeleteRequest(item.props.title.id)"
           >
-            Delete request
-          </v-tooltip>
-        </v-btn>
+            <v-icon icon="mdi-delete"/>
+
+            <v-tooltip
+              activator="parent"
+              location="bottom"
+            >
+              Delete request
+            </v-tooltip>
+          </v-btn>
+        </div>
       </template>
     </VDataTable>
+
+    <BaseNoData v-else/>
   </v-card>
 
   <EditRequestDialog

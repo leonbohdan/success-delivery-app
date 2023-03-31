@@ -7,10 +7,13 @@ const router = useRouter();
 
 const isShowBtns = ref(true);
 
-watch(() => route, (val) => {
-  console.log('route.name', val.name);
-  isShowBtns.value = val.name !== 'order' && val.name !== 'deliver';
-}, { deep: true, immediate: true });
+watch(
+  () => route,
+  (val) => {
+    isShowBtns.value = val.name !== 'order' && val.name !== 'deliver';
+  },
+  { deep: true, immediate: true },
+);
 
 const handleBtnClick = (type) => {
   router.push(`/${route.params.id}/create/${type}`);

@@ -83,53 +83,55 @@ const showAllUserRequest = (userId) => {
       item-value="id"
     >
       <template #item.actions="{ item }">
-        <v-btn
-          icon
-          size="small"
-          elevation="0"
-          @click="showAllUserRequest(item.props.title.id)"
-        >
-          <v-icon icon="mdi-timetable"/>
-
-          <v-tooltip
-            activator="parent"
-            location="bottom"
+        <div class="d-flex align-center justify-center">
+          <v-btn
+            icon
+            size="small"
+            elevation="0"
+            @click="showAllUserRequest(item.props.title.id)"
           >
-            Show all user requests
-          </v-tooltip>
-        </v-btn>
+            <v-icon icon="mdi-timetable"/>
+
+            <v-tooltip
+              activator="parent"
+              location="bottom"
+            >
+              Show all user requests
+            </v-tooltip>
+          </v-btn>
         
-        <v-btn
-          icon
-          size="small"
-          elevation="0"
-          @click="addRequest(item.props.title.id)"
-        >
-          <v-icon icon="mdi-plus-box-outline"/>
-
-          <v-tooltip
-            activator="parent"
-            location="bottom"
+          <v-btn
+            icon
+            size="small"
+            elevation="0"
+            @click="addRequest(item.props.title.id)"
           >
-            Add request
-          </v-tooltip>
-        </v-btn>
+            <v-icon icon="mdi-plus-box-outline"/>
 
-        <v-btn
-          icon
-          size="small"
-          elevation="0"
-          @click="handleDeleteUser(item.props.title.id)"
-        >
-          <v-icon icon="mdi-delete"/>
+            <v-tooltip
+              activator="parent"
+              location="bottom"
+            >
+              Add request
+            </v-tooltip>
+          </v-btn>
 
-          <v-tooltip
-            activator="parent"
-            location="bottom"
+          <v-btn
+            icon
+            size="small"
+            elevation="0"
+            @click="handleDeleteUser(item.props.title.id)"
           >
-            Delete user
-          </v-tooltip>
-        </v-btn>
+            <v-icon icon="mdi-delete"/>
+
+            <v-tooltip
+              activator="parent"
+              location="bottom"
+            >
+              Delete user
+            </v-tooltip>
+          </v-btn>
+        </div>
       </template>
     </VDataTable>
   </v-card>
