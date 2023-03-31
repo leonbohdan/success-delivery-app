@@ -8,6 +8,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  showFooter: {
+    type: Boolean,
+    default: true,
+  },
   title: {
     type: String,
     default: '',
@@ -50,21 +54,23 @@ const handleSave = () => {
           <slot/>
         </v-card-text>
 
-        <v-divider/>
+        <template v-if="showFooter">
+          <v-divider/>
 
-        <v-card-actions>
-          <v-spacer/>
+          <v-card-actions>
+            <v-spacer/>
 
-          <slot name="footer">
-            <v-btn color="error" @click="handleClose">
-              Cancel
-            </v-btn>
+            <slot name="footer">
+              <v-btn color="error" @click="handleClose">
+                Cancel
+              </v-btn>
 
-            <v-btn color="primary" @click="handleSave">
-              Save
-            </v-btn>
-          </slot>
-        </v-card-actions>
+              <v-btn color="primary" @click="handleSave">
+                Save
+              </v-btn>
+            </slot>
+          </v-card-actions>
+        </template>
       </v-card>
     </v-dialog>
   </div>

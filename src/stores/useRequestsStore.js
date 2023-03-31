@@ -13,6 +13,26 @@ export const useRequestsStore = defineStore('requestsStore', {
       this.requests = requests;
     },
 
+    getRequest(id) {
+      return this.requests.filter((request) => request.id === id)[0];
+    },
+
+    updateRequest(updatedRequest) {
+      const updatedRequests = this.requests.map((request) => {
+        if (updatedRequest.id === request.id) {
+          return {
+            ...request,
+            ...updatedRequest,
+          };
+        }
+
+        return request;
+      });
+
+      this.requests = updatedRequests;
+      setRequests(updatedRequests);
+    },
+
     addRequest(request) {
       const updatedRequests = [request, ...this.requests];
 

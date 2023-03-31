@@ -1,9 +1,6 @@
 <script setup>
-// import { ref } from 'vue';
-// import { useUsersStore } from '@/stores/useUsersStore.js';
 import BaseDialog from '@/components/base/BaseDialog.vue';
-
-// const usersStore = useUsersStore();
+import CreateForm from '@/components/CreateForm.vue';
 
 defineProps({
   modelValue: {
@@ -17,21 +14,19 @@ defineProps({
 });
 
 const emits = defineEmits(['update:model-value']);
-
-const editRequest = () => {
-  console.log('editRequest');
-
-  emits('update:model-value', false);
-};
 </script>
 
 <template>
   <BaseDialog
     :model-value="modelValue"
     title="Edit request"
-    @save="editRequest"
+    :show-footer="false"
     @close-dialog="emits('update:model-value', false)"
   >
-    Edit Form
+    <CreateForm
+      :min-width="400"
+      :request-id="requestId"
+      @save-request="emits('update:model-value', false)"
+    />
   </BaseDialog>
 </template>

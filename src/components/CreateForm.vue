@@ -1,7 +1,8 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { generateUUID } from '@/helpers/id-generators.js';
+import { format } from 'date-fns';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { maxLengthValidationRules, minLengthValidationRules, requiredValidationRules } from '@/helpers/rules.js';
@@ -12,15 +13,45 @@ const requestsStore = useRequestsStore();
 const route = useRoute();
 const router = useRouter();
 
+const props = defineProps({
+  minWidth: {
+    type: Number,
+    default: 500,
+  },
+  requestId: {
+    type: String,
+    default: null,
+  },
+});
+
+const emits = defineEmits(['save-request']);
+
 const fromCity = ref(null);
 const toCity = ref(null);
 const parcelType = ref(null);
-const disputchDate = ref(new Date());
+const dispatchDate = ref(format(new Date(), 'yyyy-MM-dd'));
 const description = ref(null);
 
 const addRequestFormRef = ref(null);
 const isOrderType = ref(false);
 const loadingBtn = ref(false);
+const editedRequest = ref(null);
+
+onMounted(async () => {
+  if (props.requestId) {
+    const request = await requestsStore.getRequest(props.requestId);
+
+    editedRequest.value = request;
+
+    isOrderType.value = request.requestType === 'order';
+
+    fromCity.value = request.from;
+    toCity.value = request.to;
+    parcelType.value = request.parcelType;
+    dispatchDate.value = request.date;
+    description.value = request.description;
+  }
+});
 
 watch(
   () => route,
@@ -31,8 +62,6 @@ watch(
 );
 
 const handleSubmit = async () => {
-  console.log('handleSubmit');
-
   const { valid } = await addRequestFormRef.value.validate();
 
   if (!valid) {
@@ -43,28 +72,54 @@ const handleSubmit = async () => {
 
   loadingBtn.value = true;
 
-  const request = {
-    id: generateUUID(),
-    userId: route.params.id,
-    requestType: route.name,
-    from: fromCity.value,
-    to: toCity.value,
-    parcelType: parcelType.value,
-    date: disputchDate.value,
-    description: description.value,
-  };
+  if (props.requestId) {
+    const updatedRequest = {
+      ...editedRequest.value,
+      from: fromCity.value,
+      to: toCity.value,
+      parcelType: parcelType.value,
+      date: dispatchDate.value,
+      description: description.value,
+    };
 
-  await requestsStore.addRequest(request);
+    await requestsStore.updateRequest(updatedRequest);
+  } else {
+    const request = {
+      id: generateUUID(),
+      userId: route.params.id,
+      requestType: route.name,
+      from: fromCity.value,
+      to: toCity.value,
+      parcelType: parcelType.value,
+      date: dispatchDate.value,
+      description: description.value,
+    };
+
+    await requestsStore.addRequest(request);
+  }
 
   setTimeout(() => {
     loadingBtn.value = false;
-    router.push(`/${route.params.id}/requests`);
+
+    emits('save-request');
+
+    if (!props.requestId) {
+      router.push(`/${route.params.id}/requests`);
+    }
   }, 500);
 };
+
+const saveBtn = computed(() => {
+  return props.requestId ? 'Edit' : 'Save';
+});
 </script>
 
 <template>
-  <v-sheet width="500" class="mx-auto mt-5 h-screen">
+  <v-sheet
+    :min-width="minWidth"
+    max-width="500"
+    :class="['mx-auto h-100', requestId ? 'mb-3' : 'mt-5']"
+  >
     <v-form
       ref="addRequestFormRef"
       fast-fail
@@ -91,10 +146,11 @@ const handleSubmit = async () => {
       />
 
       <VueDatePicker
-        v-model="disputchDate"
+        v-model="dispatchDate"
         :min-date="new Date()"
         model-type="yyyy-MM-dd"
         :enable-time-picker="false"
+        :teleport="true"
         class="mb-6"
       />
 
@@ -114,7 +170,7 @@ const handleSubmit = async () => {
           color="primary"
           elevation="0"
         >
-          Save
+          {{ saveBtn }}
         </v-btn>
       </div>
     </v-form>
