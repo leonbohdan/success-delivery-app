@@ -46,6 +46,11 @@ export const useRequestsStore = defineStore('requestsStore', {
       this.requests = updatedRequests;
       setRequests(updatedRequests);
     },
+
+    deleteAllRequest() {
+      this.requests = [];
+      setRequests([]);
+    },
   },
 
   getters: {},

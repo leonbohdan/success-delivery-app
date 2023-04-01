@@ -2,14 +2,22 @@
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useRequestsStore } from '@/stores/useRequestsStore.js';
+import { useUsersStore } from '@/stores/useUsersStore.js';
 import { VDataTable } from 'vuetify/labs/components';
 import AgreeDialog from '@/components/dialogs/ConfirmDialog.vue';
 import EditRequestDialog from '@/components/dialogs/EditRequestDialog.vue';
 import BaseNoData from '@/components/base/BaseNoData.vue';
 
 const requestsStore = useRequestsStore();
+const usersStore = useUsersStore();
 
 const route = useRoute();
+
+const isUserExist = computed(() => {
+  const isExist = usersStore.users.filter((user) => user.id === userId);
+
+  return isExist.length > 0;
+});
 
 const showAgreeDialog = ref(false);
 const showEditRequestDialog = ref(false);
@@ -122,6 +130,12 @@ const handleDeleteRequest = (id) => {
         </div>
       </template>
     </VDataTable>
+
+    <BaseNoData v-else-if="!isUserExist">
+      <div>
+        There are no user with id: {{ userId }}
+      </div>
+    </BaseNoData>
 
     <BaseNoData v-else/>
   </v-card>

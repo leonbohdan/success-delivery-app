@@ -24,9 +24,7 @@ defineProps({
 
 const emits = defineEmits(['update:model-value', 'confirm-value']);
 
-const handleAgreement = async (agreement) => {
-  confirm(agreement);
-
+const handleAgreement = async () => {
   const { data, isCanceled } = await reveal();
 
   if (!isCanceled) {
@@ -52,7 +50,7 @@ const handleAgreement = async (agreement) => {
         <v-btn
           color="red-darken-1"
           variant="text"
-          @click="handleAgreement(false)"
+          @click="handleAgreement(), confirm(false)"
         >
           No
         </v-btn>
@@ -60,7 +58,7 @@ const handleAgreement = async (agreement) => {
         <v-btn
           color="green-darken-1"
           variant="text"
-          @click="handleAgreement(true)"
+          @click="handleAgreement(), confirm(true)"
         >
           Yes
         </v-btn>

@@ -16,16 +16,19 @@ const router = createRouter({
       children: [
         {
           path: ':id',
+          name: 'id',
           redirect: (to) => {
             return { path: `${to.params.id}/requests` };
           },
           children: [
             {
               path: 'requests',
+              name: 'user-requests',
               component: UserRequestsLists,
             },
             {
               path: 'create',
+              name: 'create',
               component: CreateView,
               children: [
                 {
@@ -51,11 +54,25 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(({ name }, _, next) => {
+router.beforeEach((to, from, next) => {
   const usersStore = useUsersStore();
 
-  if (usersStore.isNoUsers && name !== 'home') {
+  if (usersStore.isNoUsers && to.name !== 'home') {
     return next({ name: 'home' });
+  } else if (
+    !usersStore.isNoUsers
+    && to.name !== 'id'
+    && to.name !== 'user-requests'
+    && to.name !== 'requests'
+    && to.name !== 'order'
+    && to.name !== 'deliver'
+    && to.name !== 'create'
+    && from.name !== 'requests'
+    && to.name !== 'home'
+  ) {
+    return next({ path: `${to.params.id}/requests` });
+  } else if (!usersStore.isNoUsers && to.name === 'home') {
+    return next({ name: 'requests' });
   } else {
     return next();
   }

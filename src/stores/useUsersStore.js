@@ -1,5 +1,6 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { useLocalStorage } from '@/composables/useLocalStorage.js';
+import { useRequestsStore } from '@/stores/useRequestsStore.js';
 
 const { setUsers } = useLocalStorage();
 
@@ -21,10 +22,16 @@ export const useUsersStore = defineStore('usersStore', {
     },
 
     deleteUser(id) {
+      const requestsStore = useRequestsStore();
+
       const updatedUsers = this.users.filter((user) => user.id !== id);
 
       this.users = updatedUsers;
       setUsers(updatedUsers);
+
+      if (!this.users.length) {
+        requestsStore.deleteAllRequest();
+      }
     },
   },
 
