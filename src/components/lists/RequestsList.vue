@@ -5,12 +5,15 @@ import { VDataTable } from 'vuetify/labs/components';
 import AgreeDialog from '@/components/dialogs/ConfirmDialog.vue';
 import EditRequestDialog from '@/components/dialogs/EditRequestDialog.vue';
 import BaseNoData from '@/components/base/BaseNoData.vue';
+import MatchedRequestsDialog from '@/components/dialogs/MatchedRequestsDialog.vue';
 
 const requestsStore = useRequestsStore();
 
 const showAgreeDialog = ref(false);
 const showEditRequestDialog = ref(false);
+const showMatchedRequestsDialog = ref(false);
 const requestId = ref('');
+const matchedRequests = ref([]);
 
 const headers = ref([
   {
@@ -61,6 +64,37 @@ const handleDeleteRequest = (id) => {
   requestId.value = id;
   showAgreeDialog.value = true;
 };
+
+const handleMatchedRequests = async (chosenRequest) => {
+  matchedRequests.value = await matchedRequestsHandler(requestsStore.requests, chosenRequest);
+
+  showMatchedRequestsDialog.value = true;
+};
+
+const matchedRequestsHandler = (arr, request) => {
+  const filtered =  arr.filter((item) => item.id !== request.id);
+
+  return filtered.filter((item) => {
+    return item.from === request.from
+          || item.to === request.to
+          || new Date(item.date) <= new Date(request.date);
+  });
+
+  // return arr.filter((item) => {
+  //   if (item.id === request.id) {
+  //     return false;
+  //   }
+  //
+  //   if (item.from === request.from || item.to === request.to) {
+  //     return true;
+  //   }
+  //
+  //   const itemDate = new Date(item.date);
+  //   const requestDate = new Date(request.date);
+  //
+  //   return itemDate <= requestDate;
+  // });
+};
 </script>
 
 <template>
@@ -78,6 +112,22 @@ const handleDeleteRequest = (id) => {
 
       <template #item.actions="{ item }">
         <div class="d-flex align-center justify-center">
+          <v-btn
+            icon
+            size="small"
+            elevation="0"
+            @click="handleMatchedRequests(item.raw)"
+          >
+            <v-icon icon="mdi-equal-box"/>
+
+            <v-tooltip
+              activator="parent"
+              location="bottom"
+            >
+              Matched requests
+            </v-tooltip>
+          </v-btn>
+
           <v-btn
             icon
             size="small"
@@ -119,6 +169,11 @@ const handleDeleteRequest = (id) => {
   <EditRequestDialog
     v-model="showEditRequestDialog"
     :request-id="requestId"
+  />
+
+  <MatchedRequestsDialog
+    v-model="showMatchedRequestsDialog"
+    :matched-requests="matchedRequests"
   />
 
   <AgreeDialog
