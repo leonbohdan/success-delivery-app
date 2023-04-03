@@ -26,6 +26,8 @@ export const useUsersStore = defineStore('usersStore', {
 
       const updatedUsers = this.users.filter((user) => user.id !== id);
 
+      requestsStore.deleteAllUserRequests(id);
+
       this.users = updatedUsers;
       setUsers(updatedUsers);
 

@@ -143,7 +143,7 @@ const showAllUserRequest = (userId) => {
   <AgreeDialog
     v-model="showAgreeDialog"
     title="Delete user"
-    message="Are you sure, do you want to delete this user?"
+    message="Are you sure, do you want to delete this user, with all his requests?"
     @confirm-value="deleteUser"
   />
 </template>

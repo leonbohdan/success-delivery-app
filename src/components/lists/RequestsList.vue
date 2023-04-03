@@ -72,28 +72,13 @@ const handleMatchedRequests = async (chosenRequest) => {
 };
 
 const matchedRequestsHandler = (arr, request) => {
-  const filtered =  arr.filter((item) => item.id !== request.id);
+  const filtered = arr.filter((item) => item.id !== request.id);
 
   return filtered.filter((item) => {
     return item.from === request.from
           || item.to === request.to
           || new Date(item.date) <= new Date(request.date);
   });
-
-  // return arr.filter((item) => {
-  //   if (item.id === request.id) {
-  //     return false;
-  //   }
-  //
-  //   if (item.from === request.from || item.to === request.to) {
-  //     return true;
-  //   }
-  //
-  //   const itemDate = new Date(item.date);
-  //   const requestDate = new Date(request.date);
-  //
-  //   return itemDate <= requestDate;
-  // });
 };
 </script>
 

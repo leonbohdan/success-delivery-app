@@ -47,6 +47,13 @@ export const useRequestsStore = defineStore('requestsStore', {
       setRequests(updatedRequests);
     },
 
+    deleteAllUserRequests(id) {
+      const updatedRequests = this.requests.filter((request) => request.userId !== id);
+
+      this.requests = updatedRequests;
+      setRequests(updatedRequests);
+    },
+
     deleteAllRequest() {
       this.requests = [];
       setRequests([]);
